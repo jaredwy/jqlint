@@ -11,16 +11,16 @@
 function validate(scripts) {
   var validation = [];
   scripts.forEach(function(script) {
-    validation.push(validateScript(script));
+    validation.push(parseScript(script));
   });
 
   console.log('all scripts validated', validation);
   return validation;
 }
 
-function validateScript(scriptInfo) {
+function parseScript(scriptInfo) {
   var errors = [];
-  console.log(scriptInfo);
+  console.log(scriptInfo.contents);
   return errors;
 }
 

@@ -1,7 +1,7 @@
 {
   "name": "Selector validator",
   "version": "1.0",
-  "description": "Selector"
+  "description": "Selector",
   "background_page": "background.html",
   "devtools_page": "devtools.html",
   "permissions":  [
