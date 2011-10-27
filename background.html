@@ -20,18 +20,7 @@ function validate(scripts) {
 
 function validateScript(scriptInfo) {
   var errors = [];
-  var isValid = JSHINT(scriptInfo.contents);
-  if (!isValid) {
-    JSHINT.errors.forEach(function(error) {
-      if (error === null) {
-        // Why does JSHINT return a null terminated array?
-        return;
-      }
-      error.url = scriptInfo.src;
-      errors.push(error);
-    });
-  }
-
+  console.log(scriptInfo);
   return errors;
 }
 
