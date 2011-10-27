@@ -1,3 +1,4 @@
+
 var rewrite = { 
     "ID": function(stream, statment) {
         var current = stream.pop()   
@@ -43,6 +44,9 @@ var rewrite = {
         }
         return rewrite.reverse().join("") + ";";
     }
+
+function flatten(args) {
+    return [].concat.apply([], args);
 }
 
 function isJQueryCall(node) {
@@ -53,18 +57,21 @@ function findJQuerySelectors(tree, statement) {
     if(tree && tree.constructor == Array) {
         // [ 'call', [ 'name', '$' ], [ [ 'string', 'p' ] ] ]
         if(isJQueryCall(tree)) {
-            return {
-                tokens: parseSelector(tree[2][0][1]),
-                statement: statement
-            };
+            return flatten(parseSelector(tree[2][0][1]).map(function(tokens) {
+                return {
+                    tokens: tokens,
+                    statement: statement
+                };
+            }));
         }
-        return [].concat.apply([], tree.map(function(n) {
+        return flatten(tree.map(function(n) {
             statement = tree.length && tree[0].name ? tree[0] : statement;
             return findJQuerySelectors(n, statement);
         }));
     }
     return [];
 }
+
 
 
 var ast = parsejs.parse("$('p')\n$('div #test')\n$($('ul > li'))\n$('.class a a + a')", false, true)[1];
