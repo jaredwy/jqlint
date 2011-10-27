@@ -18,7 +18,7 @@ function formatError(error) {
 }
 
 var category = chrome.experimental.devtools.audits.addCategory(
-    "Javascript Validation", 100);
+    "Selector evaluation", 100);
 
 category.onAuditStarted.addListener(function callback(auditResults) {
   chrome.extension.sendRequest({}, function(response) {
