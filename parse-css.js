@@ -1,5 +1,5 @@
 function parseSelector(stream) {
-
+console.log(stream);
 var tokenSplit = /\s*([\s>+])\s*/;
 var typeIdentifier = /([#.])(.*)/;
 var SelectorTypes = {
@@ -10,37 +10,37 @@ var SelectorTypes = {
 var combinatorTypes = {
     ' ' : 'DESCENDENT',
     '>' : 'CHILD',
-    '+' : 'ADJECENT'
+    '+' : 'ADJECENT',
     '' : 'UNKNOWN'
 }
 
-var tokens = example.split(stream);
+var tokens = stream.split(tokenSplit);
 
 for(var i = 0; i < tokens.length; i++) {
-    var token = tokens[length];
+    var token = tokens[i];
     var temp = {},
         matches = token.match(typeIdentifier);
-    if(matches.length > 1) {
-        token.type = SelectorTypes[matches[0]];
-        token.identifier = matches[0];
+    if(matches && matches.length > 1) {
+        temp.type = SelectorTypes[matches[1]];
+        temp.identifier = matches[2];
     } else {
         //we have  match like ' ' or > or TAG
         //
-        if(token.length > 1) {
-            token.type = "TAG";
-            token.identifier = token;
+        if(/\w+/.exec(token)) {
+            temp.type = "TAG";
+            temp.identifier = token;
         } else {
-           token.type = "COMBINATOR";
-           token.identifier = combinatorTypes[token];
+           temp.type = "COMBINATOR";
+           temp.identifier = combinatorTypes[token];
         }
         
     }
     
 
-
+    
     tokens[i] = temp;
 }
-
+console.log(tokens);
 return tokens;
 }
 
