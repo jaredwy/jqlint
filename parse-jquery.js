@@ -44,7 +44,7 @@ var rewrite = {
         }
         return rewrite.reverse().join("") + ";";
     }
-
+}
 function flatten(args) {
     return [].concat.apply([], args);
 }
