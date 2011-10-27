@@ -1,4 +1,3 @@
-var parsejs = require('./parse-js');
 
 function isJQueryCall(node) {
     return node.length > 2 && node[0] == 'call' && node[1][0] == 'name' && ['$', 'jQuery'].indexOf(node[1][1]) != -1 && node[2][0][0] == 'string';

@@ -1248,3 +1248,6 @@ exports.ATOMIC_START_TOKEN = ATOMIC_START_TOKEN;
 exports.OPERATORS = OPERATORS;
 exports.is_alphanumeric_char = is_alphanumeric_char;
 exports.is_identifier_char = is_identifier_char;
+
+
+parsejs = exports;

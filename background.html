@@ -1,7 +1,22 @@
 <!doctype html>
 <head>
-<script src="jshint.js"></script>
+    <script src="parse-js.js"></script>
     <script type="text/javascript">
+
+    function isJQueryCall(node) {
+        return node.length > 2 && node[0] == 'call' && node[1][0] == 'name' && ['$', 'jQuery'].indexOf(node[1][1]) != -1 && node[2][0][0] == 'string';
+    }
+    function findJQuerySelectors(tree) {
+    if(tree && tree.constructor == Array) {
+        if(isJQueryCall(tree)) {
+            return tree[2][0][1];
+        }
+        return [].concat.apply([], tree.map(findJQuerySelectors));
+    }
+    return [];
+}
+
+
 
 
 /**
@@ -19,9 +34,14 @@ function validate(scripts) {
 }
 
 function parseScript(scriptInfo) {
-  var errors = [];
-  console.log(scriptInfo.contents);
-  return errors;
+    var errors = [];
+    
+    var ast = parsejs.parse(scriptInfo.contents)[1];
+    var selectors = findJQuerySelectors(ast);
+
+    console.log(selectors);
+    console.log(scriptInfo.contents);
+    return errors;
 }
 
 chrome.extension.onRequest.addListener(function(request, sender, callback) {
