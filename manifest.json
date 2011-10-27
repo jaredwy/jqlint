@@ -1,7 +1,7 @@
 {
-  "name": "Selector validator",
+  "name": "Selector lint tool",
   "version": "1.0",
-  "description": "Selector",
+  "description": "Extends the Developer Tools, adding an audit category that will advise when a selector is too heavy",
   "background_page": "background.html",
   "devtools_page": "devtools.html",
   "permissions":  [
