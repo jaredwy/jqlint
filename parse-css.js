@@ -1,4 +1,4 @@
-function tokenize(stream) {
+function parseSelector(stream) {
 
 var tokenSplit = /\s*([\s>+])\s*/;
 var typeIdentifier = /([#.])(.*)/;

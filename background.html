@@ -1,20 +1,10 @@
 <!doctype html>
 <head>
+    <script src="parse-css.js"></script>
     <script src="parse-js.js"></script>
+    <script src="parse-jquery.js"></script>
     <script type="text/javascript">
 
-    function isJQueryCall(node) {
-        return node.length > 2 && node[0] == 'call' && node[1][0] == 'name' && ['$', 'jQuery'].indexOf(node[1][1]) != -1 && node[2][0][0] == 'string';
-    }
-    function findJQuerySelectors(tree) {
-    if(tree && tree.constructor == Array) {
-        if(isJQueryCall(tree)) {
-            return tree[2][0][1];
-        }
-        return [].concat.apply([], tree.map(findJQuerySelectors));
-    }
-    return [];
-}
 
 
 

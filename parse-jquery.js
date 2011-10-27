@@ -1,7 +1,4 @@
 
-function parseSelector(selector) {
-    return selector.split(/\s*([ >+])\s*/);
-}
 
 function isJQueryCall(node) {
     return node.length > 2 && node[0] == 'call' && node[1][0] == 'name' && ['$', 'jQuery'].indexOf(node[1][1]) != -1 && node[2][0][0] == 'string';
@@ -12,7 +9,7 @@ function findJQuerySelectors(tree, statement) {
         // [ 'call', [ 'name', '$' ], [ [ 'string', 'p' ] ] ]
         if(isJQueryCall(tree)) {
             return {
-                selector: parseSelector(tree[2][0][1]),
+                tokens: parseSelector(tree[2][0][1]),
                 statement: statement
             };
         }
