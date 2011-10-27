@@ -25,4 +25,42 @@ function findJQuerySelectors(tree, statement) {
 var ast = parsejs.parse("$('p')\n$('div #test')\n$($('ul > li'))", false, true)[1];
 var nodes = findJQuerySelectors(ast);
 
-console.log(JSON.stringify(nodes));
+for(var i = 0; i < nodes.length; i++) {
+    var result;
+    if(result = parseCSS(nodes[i].tokens)) {
+        console.log(result);    
+    }  else {
+        //you did good
+    }
+    
+}
+
+
+
+
+function getLookAhead(stream, position) {
+    if(stream[position-1]) {
+        return stream[position-1];
+    }
+    return null;
+}
+
+
+function parseCSS(stream) {
+    var warning = [];
+        var currentToken, lookAhead;
+        for(var j = stream.length -1; j != 0; j--) {
+            currentToken = stream[j];
+            lookAhead = getLookAhead(stream,j);
+            if(currentToken == "TAG") {
+                if(!lookahead && lookAhead.type == "COMBINATOR" && lookAhead.identifier != "CHILD") {
+                    return {type: "SPECIFIC", stream: stream };
+                }
+            }
+            if(currentToken.type == "ID" && lookAhead != null) {
+                return {type: "ID", stream: stream };
+
+            }
+        }
+    return null;
+}

@@ -26,7 +26,7 @@ for(var i = 0; i < tokens.length; i++) {
     } else {
         //we have  match like ' ' or > or TAG
         //
-        if(/\w+/.exec(token)) {
+        if(/\w+|\*/.exec(token)) {
             temp.type = "TAG";
             temp.identifier = token;
         } else {
