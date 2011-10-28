@@ -32,7 +32,7 @@ function parseScript(scriptInfo) {
         if(!result.errors) return;
         errors.push({
             url: scriptInfo.src,
-            original: result.selector,
+            original: "$('" + result.selector + "')",
             rewritten: result.errors,
             line: result.statement.start.line
         });
