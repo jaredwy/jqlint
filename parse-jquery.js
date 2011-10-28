@@ -1,4 +1,3 @@
-
 var rewrite = { 
     "ID": function(stream, statment) {
         var current = stream.pop()   
@@ -75,23 +74,6 @@ function findJQuerySelectors(tree, statement) {
     }
     return [];
 }
-
-
-
-var ast = parsejs.parse("$('p')\n$('div #test')\n$($('ul > li'))\n$('.class a a + a')", false, true)[1];
-var nodes = findJQuerySelectors(ast);
-
-for(var i = 0; i < nodes.length; i++) {
-    var result;
-    if(result = parseCSS(nodes[i].tokens)) {
-        console.log(rewrite[result.type](nodes[i].tokens,nodes[i].statment));    
-    }  else {
-        //you did good
-    }
-    
-}
-
-
 
 
 function getLookAhead(stream, position,count) {

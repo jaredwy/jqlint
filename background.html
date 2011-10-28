@@ -26,11 +26,18 @@ function validate(scripts) {
 function parseScript(scriptInfo) {
     var errors = [];
     
-     var ast = parsejs.parse(scriptInfo.contents,false,true)[1];
-     var selectors = findJQuerySelectors(ast);
+    var ast = parsejs.parse(scriptInfo.contents,false,true)[1];
+    var results = findJQuerySelectors(ast);
+    results.forEach(function(result) {
+        if(!result.errors) return;
+        errors.push({
+            url: scriptInfo.src,
+            original: result.selector,
+            rewritten: result.errors,
+            line: result.statement.start.line
+        });
+    });
 
-    console.log();
-    console.log(scriptInfo.contents);
     return errors;
 }
 

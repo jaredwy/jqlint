@@ -3,17 +3,13 @@
 <head>
 <script type="text/javascript">
 
-var ERROR_FORMAT = 'Line {{LINE}}: {{REASON}} - {{EVIDENCE}}';
+var ERROR_FORMAT = 'Line {{LINE}}: can rewrite {{ORIGINAL}} to {{REWRITTEN}}';
 var MAX_EVIDENCE = 80;
 function formatError(error) {
-  // Get the fragment of evidence near the actual character position
-  var start = error.character - MAX_EVIDENCE/2;
-  var end = error.character + MAX_EVIDENCE/2;
-  var evidence = error.evidence && error.evidence.substring(start, end) || '';
   return ERROR_FORMAT
       .replace('{{LINE}}', error.line)
-      .replace('{{REASON}}', error.reason)
-      .replace('{{EVIDENCE}}', evidence)
+      .replace('{{ORIGINAL}}', error.original)
+      .replace('{{REWRITTEN}}', error.rewritten)
       .replace('{{}}', error.a)
 }
 

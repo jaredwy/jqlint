@@ -1,5 +1,4 @@
 function parseSelector(stream) {
-    console.log(stream);
     var tokenSplit = /\s*([\s>+])\s*/;
     var typeIdentifier = /(([#.])(.*))/;
     var SelectorTypes = {
@@ -40,7 +39,6 @@ function parseSelector(stream) {
 
             tokens[i] = temp;
         }
-        console.log(tokens);
         return tokens;
     });
 }
