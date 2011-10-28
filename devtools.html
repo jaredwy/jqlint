@@ -3,13 +3,14 @@
 <head>
 <script type="text/javascript">
 
-var ERROR_FORMAT = 'Line {{LINE}}: can rewrite {{ORIGINAL}} to {{REWRITTEN}}';
+var ERROR_FORMAT = 'Line {{LINE}}: can rewrite {{ORIGINAL}} to {{REWRITTEN}} ({{SPEEDUP}} difference)';
 var MAX_EVIDENCE = 80;
 function formatError(error) {
   return ERROR_FORMAT
       .replace('{{LINE}}', error.line)
       .replace('{{ORIGINAL}}', error.original)
       .replace('{{REWRITTEN}}', error.rewritten)
+      .replace('{{SPEEDUP}}', error.speedup)
       .replace('{{}}', error.a)
 }
 

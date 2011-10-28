@@ -54,6 +54,35 @@ function nameInlineScript() {
   return name;
 }
 
+function benchScripts(scripts) {
+  scripts.forEach(function(script, scriptIndex) {
+    script.forEach(function(error, errorIndex) {
+      var i, start, before, after;
+
+      start = new Date();
+      for(i = 0; i < 100; i++) {
+        eval(error.original);
+      }
+      before = new Date() - start;
+
+      start = new Date();
+      for(i = 0; i < 100; i++) {
+        eval(error.rewritten);
+      }
+      after = new Date() - start;
+      
+      scripts[scriptIndex][errorIndex].speedup = before - after;
+    });
+  });
+  return scripts;
+}
+
 chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
-  sendResponse({scripts: getScripts()});
+  if(request.type == "getScripts") {
+    sendResponse({scripts: getScripts()});
+  } else if(request.type == "benchChanges") {
+    sendResponse({scripts: benchScripts(request.args)});
+  } else {
+    sendResponse();
+  }
 });

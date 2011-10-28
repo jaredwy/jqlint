@@ -57,14 +57,17 @@ function parseScript(scriptInfo) {
 
 chrome.extension.onRequest.addListener(function(request, sender, callback) {
   chrome.tabs.getSelected(null, function(tab) {
+    chrome.tabs.executeScript(null, {file: 'jquery-1.6.4.min.js'});
     chrome.tabs.executeScript(tab.id, {file: 'content.js'}, function() {
-      chrome.tabs.sendRequest(tab.id, {}, function(response) {
+      chrome.tabs.sendRequest(tab.id, {type: "getScripts"}, function(response) {
         if (response.error) {
           // Something bad. Pass error up the chain.
           callback({error: response.error});
           return;
         }
-        callback({files: validate(response.scripts)});
+        chrome.tabs.sendRequest(tab.id, {type: "benchChanges", args: validate(response.scripts)}, function(response) {
+          callback({files: response.scripts});
+        });
       });
     });
   });
