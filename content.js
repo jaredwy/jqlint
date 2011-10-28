@@ -59,9 +59,10 @@ function benchScripts(scripts) {
     script.forEach(function(error, errorIndex) {
       var i, start, before, after;
 
+        try{ 
       start = new Date();
       for(i = 0; i < 100; i++) {
-        eval(error.original);
+        eval(error.originalJQuery);
       }
       before = new Date() - start;
 
@@ -72,6 +73,9 @@ function benchScripts(scripts) {
       after = new Date() - start;
       
       scripts[scriptIndex][errorIndex].speedup = before - after;
+        } catch(e) {
+      scripts[scriptIndex][errorIndex].speedup = 0;
+        }
     });
   });
   return scripts;

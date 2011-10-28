@@ -47,6 +47,7 @@ function parseScript(scriptInfo) {
         errors.push({
             url: scriptInfo.src,
             original: "$('" + result.selector + "')",
+            originalJQuery: "$('" + result.selector + "')",
             rewritten: result.errors,
             line: result.statement.start.line
         });
