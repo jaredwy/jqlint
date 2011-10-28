@@ -26,10 +26,10 @@ function validate(scripts) {
 function parseScript(scriptInfo) {
     var errors = [];
     
-    var ast = parsejs.parse(scriptInfo.contents)[1];
-    var selectors = findJQuerySelectors(ast);
+     var ast = parsejs.parse(scriptInfo.contents,false,true)[1];
+     var selectors = findJQuerySelectors(ast);
 
-    console.log(selectors);
+    console.log();
     console.log(scriptInfo.contents);
     return errors;
 }

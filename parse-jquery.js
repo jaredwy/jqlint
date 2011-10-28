@@ -11,7 +11,7 @@ var rewrite = {
         var lookAhead,
             rewrite = [],
             results = [];
-        for(var i = stream.length - 1; i >= 0; i--) {
+        for(var i = stream.length - 1; i >= 0; --i) {
             var current = stream[i],
                 lookAhead = getLookAhead(stream,i),
                 lookAhead2 = getLookAhead(stream,i,2);
@@ -25,8 +25,10 @@ var rewrite = {
                 results.push(" ");
             }
             if(current.type == "TAG" && lookAhead.type == "COMBINATOR" && lookAhead.identifier != "DESCENDENT") {
-               rewrite.push(".find('" + results.join("") + '")');
-               results = [];
+               if(results.length) {
+                rewrite.push(".find('" + results.join("") + '")');
+                results = [];
+               }
                results.push(lookAhead.identifier == "ADJECENT" ? "+" : ">");
                results.push(current.identifier);
             }
@@ -65,6 +67,7 @@ function findJQuerySelectors(tree, statement) {
             }));
         }
         return flatten(tree.map(function(n) {
+            while(!tree[0]) { tree = tree[1] }
             statement = tree.length && tree[0].name ? tree[0] : statement;
             return findJQuerySelectors(n, statement);
         }));
