@@ -9,6 +9,7 @@ var rewrite = {
     },
     "SPECIFIC" : function(stream,statment) {
         var lookAhead,
+            lookAhead2,
             rewrite = [],
             results = [];
         for(var i = stream.length - 1; i >= 0; i--) {
@@ -16,31 +17,26 @@ var rewrite = {
                 lookAhead = getLookAhead(stream,i),
                 lookAhead2 = getLookAhead(stream,i,2);
             
-            if(current.identifier == "DESCENDENT") {
-                continue;
-            }
-            
-            if(current.type == "TAG" && lookAhead.type == "COMBINATOR" && lookAhead.identifier == "DESCENDENT") {
+            if(current.type == "TAG" && lookAhead && lookAhead.identifier == "DESCENDENT") {
                 results.push(current.identifier); 
-                results.push(" ");
             }
-            if(current.type == "TAG" && lookAhead.type == "COMBINATOR" && lookAhead.identifier != "DESCENDENT") {
-               rewrite.push(".find('" + results.join("") + '")');
-               results = [];
-               results.push(lookAhead.identifier == "ADJECENT" ? "+" : ">");
-               results.push(current.identifier);
+            if(current.type == "TAG" && lookAhead && lookAhead.identifier != "DESCENDENT" && lookAhead2 && lookAhead2.type == "TAG") {
+                if(results.length) rewrite.push(".find('" + results.join(" ") + "')");
+                results = [];
+                results.push(lookAhead2.identifier);
+                results.push(lookAhead.identifier == "ADJECENT" ? "+" : ">");
+                results.push(current.identifier);
+                rewrite.push(".find('" + results.join(" ") + "')");
+                results = [];
+                i -= 2;
             }
-            if(current.type != "TAG") {
-                if(lookAhead == null) {
-                    rewrite.push(".find('" + results.join("") + '")');
-                    rewrite.push("$('"+ current.identifier + "')");
-                }
-                else {
-                    rewrite.push(".find('" + results.join("") + "')");
-                    rewrite.push(".find('" + results.join(" ") + '")');
-                }
+            if(lookAhead == null) {
+                if(results.length) rewrite.push(".find('" + results.join(" ") + "')");
+                rewrite.push("$('"+ current.identifier + "')");
+            } else if(results.length) {
+                rewrite.push(".find('" + results.join(" ") + "')");
+                results = [];
             }
-
         }
         return rewrite.reverse().join("") + ";";
     }
