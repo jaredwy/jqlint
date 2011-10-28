@@ -54,9 +54,16 @@ function findJQuerySelectors(tree, statement) {
         // [ 'call', [ 'name', '$' ], [ [ 'string', 'p' ] ] ]
         if(isJQueryCall(tree)) {
             return flatten(parseSelector(tree[2][0][1]).map(function(tokens) {
+                var result = parseCSS(tokens);
+                var error = null;
+                if(result) {
+                    error = rewrite[result.type](tokens,tree[2][0][1]);
+                }
                 return {
+                    errors: error,
                     tokens: tokens,
-                    statement: statement
+                    statement: statement,
+                    selector: tree[2][0][1]
                 };
             }));
         }
@@ -97,6 +104,7 @@ function getLookAhead(stream, position,count) {
 
 
 function parseCSS(stream) {
+    if(stream.length && stream[0] && stream[0].type == "TAG" &&stream[0].identifier.indexOf("<") > -1) return null;
     var warning = [];
         var currentToken, lookAhead;
         for(var j = stream.length -1; j != 0; j--) {
